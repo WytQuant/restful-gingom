@@ -43,7 +43,7 @@ func (cg *Categories) FindAll(c *gin.Context) {
 	var categories []models.Category
 	cg.DB.Order("id desc").Find(&categories)
 
-	var serializedCategories []allCategoryResponse
+	serializedCategories := []allCategoryResponse{}
 	copier.Copy(&serializedCategories, &categories)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -58,7 +58,7 @@ func (cg *Categories) FindOne(c *gin.Context) {
 		return
 	}
 
-	var serializedCategory categoryResponse
+	serializedCategory := categoryResponse{}
 	copier.Copy(&serializedCategory, category)
 
 	c.JSON(http.StatusOK, gin.H{
@@ -82,7 +82,7 @@ func (cg *Categories) Create(c *gin.Context) {
 		return
 	}
 
-	var serializedCategory categoryResponse
+	serializedCategory := categoryResponse{}
 	copier.Copy(&serializedCategory, &category)
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Created category successfully",
@@ -112,12 +112,12 @@ func (cg *Categories) Update(c *gin.Context) {
 		return
 	}
 
-	var serializeCategory categoryResponse
-	copier.Copy(&serializeCategory, category)
+	serializedCategory := categoryResponse{}
+	copier.Copy(&serializedCategory, category)
 
 	c.JSON(http.StatusOK, gin.H{
 		"message":  "Update category successfully",
-		"articles": serializeCategory,
+		"articles": serializedCategory,
 	})
 }
 
@@ -132,7 +132,7 @@ func (cg *Categories) Delete(c *gin.Context) {
 	cg.DB.Unscoped().Delete(&models.Category{}, categoryId)
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": "Delete article successfully",
+		"message": "Delete category successfully",
 	})
 }
 
